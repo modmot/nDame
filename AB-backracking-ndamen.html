@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+	<title>Visualisierung von Algorithmen: N Damen</title>
+	<meta http-equiv="Content-Type" content="text/html" charset= "utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+</head>
+
+<body class="w3-container">
+
+	<header class="w3-container w3-blue w3-round-large w3-card-4">
+		<h1>Visualisierung von Algorithmen: N Damen</h1>
+	</header>
+	<p>by NAME ... (2015)</p>
+
+	<div class="w3-card-4" style="width:64px">
+		<img id="dame" src="./assets/img/dame.jpg" alt="dame">
+	</div>
+
+	<p>First click start to handle animation</p>
+
+	<form>
+		<div class="w3-input-group">
+			<input id="input_slow" type="number" value="50" min="0" max="5000" placeholder="5" maxlength="3" size="3">
+			<label>Verz&ouml;gerung</label>
+
+			<input type="button" class="w3-btn w3-blue w3-round-large" value="start" onclick="start_ndamen();" />
+	</form>
+
+	<p id="duration">
+		elapsed time ...
+	</p>
+
+	<p>
+		<canvas id="canvas" width="512" height="512" class="w3-round-large w3-card-4" style="background-color:blue"></canvas>
+	</p>
+
+	<p>
+		See also:
+		<ul class="w3-ul w3-card-4">
+			<li>
+				<a href="http://www.w3schools.com/w3css/default.asp">http://www.w3schools.com/w3css/default.asp</a>
+			</li>
+			<li>
+				<a href="http://www.w3schools.com/js/default.asp">http://www.w3schools.com/js/default.asp</a>
+			</li>
+		</ul>
+	</p>
+
+
+	<footer class="w3-container w3-blue w3-round-large w3-card-4">
+		<p>NAME .... (2015)</p>
+	</footer>
+
+
+	<script language="javascript" type="text/javascript" src="./assets/js/place.js"></script>
+	<script language="javascript" type="text/javascript" src="./assets/js/worker_ndamen.js"></script>
+</body>
+
+</html>
+
+<!-- /*
+		//============================================================================
+		//Name        : BackTracking-DAMEN.c
+		//Author      : hofa
+		//Version     :
+		//Copyright   : open source
+		//Description : Hello World in C, Ansi-style
+		//============================================================================
+		//
+		//AUFGABE: 8 DAMEN PROBLEM
+		//Gesucht ist die Konfiguration von 8 Damen auf einem 8x8 Schachbrett,
+		//sodass keine Dame eine andere bedroht.
+		//
+		//
+		//PAP:
+		//void BT(int i)	// 1...8 : i-te Dame
+		//	int k;
+		//
+		//	for(k=1..8)
+		//		if (feld[i][k] nicht bedroht)
+		//			Setze feld[i][k] besetzt
+		//
+		//			if(Brett ist voll)
+		//				Gib Lösung aus
+		//			else
+		//				BT(i+1)
+		//
+		//			Nimm dame vom feld[i][k]
+		//
+		//
+		//#include <stdio.h>
+		//#include <stdlib.h>
+		//
+		//#define DIM 8
+		//#define EMPTY '.'
+		//#define NOTEMPTY '#'
+		//
+		//char a[DIM][DIM];
+		//
+		//
+		//void init(void);
+		//void display(void);
+		//int isInDanger(int i, int j);
+		//
+		//void BT(int i);
+		//
+		//
+		//int main(void) {
+		//	puts("8 Damen: Backtracking"); /* prints 03-c-grundlagen */
+		//
+		//	init();
+		//
+		//	BT(0);
+		//
+		//	return EXIT_SUCCESS;
+		//}
+		//
+		//
+		//void BT(int i){ // i-th Dame
+		//	int k;
+		//
+		//	for (k = 0; k < DIM; ++k) {
+		//		if(! isInDanger(i,k)){
+		//			a[i][k]= NOTEMPTY;
+		//
+		//			if (i == DIM-1){ // we got done
+		//				display();exit(0);
+		//			}else{
+		//				BT(i+1); // try next step
+		//			}
+		//
+		//			a[i][k]= EMPTY; // backtrack
+		//		}
+		//	}
+		//}
+		//
+		//void init (void){
+		//	int i,j;
+		//
+		//	for (i = 0; i < DIM; ++i) {
+		//		for (j = 0; j < DIM; ++j) {
+		//			a[i][j]=EMPTY;
+		//		}
+		//	}
+		//}
+		//
+		//void display (void){
+		//	int i,j;
+		//
+		//	for (i = 0; i < DIM; ++i) {
+		//		for (j = 0; j < DIM; ++j) {
+		//			printf("%c ", a[i][j]);
+		//		}
+		//		printf("\n");
+		//	}
+		//}
+		//
+		//
+		//int isInDanger(int i, int j){
+		//	int ret;
+		//	int col,row;
+		//	int iorig, jorig;
+		//
+		//	iorig=i;
+		//	jorig=j;
+		//
+		//	ret=0; // assume to be not in danger
+		//	// check row
+		//	for (col = 0; col < DIM; ++col) {
+		//		if(a[i][col]==NOTEMPTY){
+		//			return 1;
+		//		}
+		//	}
+		//
+		//	// check col
+		//	for (row = 0; row < DIM; ++row) {
+		//		if(a[row][j]==NOTEMPTY){
+		//			return 1;
+		//		}
+		//	}
+		//
+		//	// diag  "/"
+		//	// --
+		//	while (i >= 0 && j < DIM){
+		//		if(a[i][j]== NOTEMPTY)
+		//			return 1;
+		//		else
+		//			i--; j++; // right and up
+		//	}
+		//
+		//	// ++
+		//	i=iorig; j= jorig;
+		//	while (i< DIM && j >= 0){
+		//		if(a[i][j]== NOTEMPTY)
+		//			return 1;
+		//		else
+		//			i++; j--; // left and down
+		//	}
+		//
+		//	// diag "\\"
+		//	//
+		//	i=iorig; j= jorig;
+		//	while (i>= 0 && j >= 0){
+		//		if(a[i][j]== NOTEMPTY)
+		//			return 1;
+		//		else
+		//			i--; j--; // left and up
+		//	}
+		//
+		//
+		//	//
+		//	i=iorig; j= jorig;
+		//	while (i<DIM && j < DIM){
+		//		if(a[i][j]== NOTEMPTY)
+		//			return 1;
+		//		else
+		//			i++; j++; // right and down
+		//	}
+		//
+		//display();
+		//printf("\nnicht gefaehrdet ist: i=%i,j=%i\n", iorig,jorig);
+		//getchar();
+		//	return 0;
+		//} -->
